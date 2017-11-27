@@ -282,8 +282,8 @@ public class DbOperationHelper {
 		else
 		{
 			sql	= "select item_id,item_name, price,availability from item "
-					+ "where availability>0 and forSale = true and item_name like '"+Key+"'"+
-					" and description like '"+Key+"'";
+					+ "where availability>0 and forSale = true and (item_name like '"+Key+"'"+
+					" or description like '"+Key+"')";
 		}
 		try 
 		{
@@ -308,8 +308,8 @@ public class DbOperationHelper {
 		else
 		{
 			sql	= "select item_id,item_name, price,availability,rentStartDate, rentEndDate from item "
-					+ "where availability>0 and forSale = false and item_name like '"+Key+"'"+
-					" and description like '"+Key+"'";
+					+ "where availability>0 and forSale = false and (item_name like '"+Key+"'"+
+					" or description like '"+Key+"')";
 		}
 		try 
 		{

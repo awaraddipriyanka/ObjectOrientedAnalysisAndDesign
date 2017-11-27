@@ -25,6 +25,7 @@ import Controller.system.cartController;
 import Controller.system.rentController;
 import Controller.system.sellController;
 import Database.DB_management;
+import Database.DbOperationHelper;
 import net.proteanit.sql.DbUtils;
 import model.util.Constant;
 import model.Cart;
@@ -730,20 +731,27 @@ public class FMS_Layout extends JFrame
 				//method call to controller to create item 
 				boolean insertSuccesfully=false;
 				try {
-					insertSuccesfully = sellControllerObj.addItem(itemNameText.getText(), 
-										   "1", 
-										   Integer.parseInt(priceText.getText()),
-										   cb.getSelectedItem().toString(),
-										   Integer.parseInt(quantityText.getText()),
-										   itemDescText.getText(),
-										   new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()),
-										   sale.isSelected(),
-										   rent.isSelected(),
-										   fromDateForRent.getText(),
-										   toDateForRent.getText());
-					populateBuyGrid(buyControllerObj.getSearchResults(""));
-					populateRentGrid(rentControllerObj.getSearchResults(""));
-				} catch (NumberFormatException e1) {
+					if(itemNameText.getText().isEmpty() ||priceText.getText().isEmpty())
+					{
+						JOptionPane.showMessageDialog(sellPanel, "Please Enter all the mandatory fields");
+					}
+					else
+					{
+						insertSuccesfully = sellControllerObj.addItem(itemNameText.getText(), 
+												DbOperationHelper.getUserId()+"",
+											   Integer.parseInt(priceText.getText()),
+											   cb.getSelectedItem().toString(),
+											   Integer.parseInt(quantityText.getText()),
+											   itemDescText.getText(),
+											   new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime()),
+											   sale.isSelected(),
+											   rent.isSelected(),
+											   fromDateForRent.getText(),
+											   toDateForRent.getText());
+						populateBuyGrid(buyControllerObj.getSearchResults(""));
+						populateRentGrid(rentControllerObj.getSearchResults(""));
+					}
+				} catch (Exception e1) {
 					e1.printStackTrace();
 				} 
 				if(insertSuccesfully)
